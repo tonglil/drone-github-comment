@@ -29,16 +29,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Set up Go
-    #   uses: actions/setup-go@v4
-    #   with:
-    #     go-version-file: 'go.mod'
-
-    # - name: Dependencies
-    #   run: |
-    #     go mod vendor
-    #     go build -a -ldflags "-X main.revision=${GITHUB_REF_NAME}-${GITHUB_SHA}"
-
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
