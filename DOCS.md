@@ -7,7 +7,7 @@ pipeline:
   github-comment:
     when:
       event: pull_request
-    image: jmccann/drone-github-comment:1
+    image: tonglil/drone-github-comment:1
     message: Hello World!
 ```
 
@@ -19,7 +19,7 @@ pipeline:
   github-comment:
     when:
       event: pull_request
-    image: jmccann/drone-github-comment:1
+    image: tonglil/drone-github-comment:1
     message: Hello World!
 +   update: true
 ```
@@ -36,7 +36,7 @@ pipeline:
   github-comment:
     when:
       event: pull_request
-    image: jmccann/drone-github-comment:1
+    image: tonglil/drone-github-comment:1
 -   message: Hello World!
 +   message_file: comment.file
 ```
@@ -47,6 +47,11 @@ pipeline:
 Override generated comment key to use when updating existing comments.
 For PRs, if this is not provided, it's generated automatically.
 
+#### `section`
+Override generated comment section to use when updating existing comments.
+For PRs, if this is not provided, it's generated automatically. Specify a
+section to group messages per comment key.
+
 #### `message`
 The message to post.
 
@@ -54,7 +59,7 @@ The message to post.
 Path to file to read for message to post.
 
 #### `update`
-Update existing comment based on `key`. Defaults to `false`.
+Update existing comment based on `key` and `section`. Defaults to `false`.
 
 #### `base_url`
 GitHub Base API Url. Example: `https://some.git.com/api/v3`. Defaults to `https://api.github.com`.
