@@ -71,10 +71,8 @@ jobs:
         file: Dockerfile
         platforms: linux/amd64,linux/arm64,linux/arm
         build-args: |
-          "VERSION=${GITHUB_REF_NAME}"
-          "SHA=${GITHUB_SHA}"
-        # "VERSION=${{ env.GITHUB_REF_NAME }}"
-        # "SHA=${{ env.GITHUB_SHA }}"
+          "VERSION=${{ env.GITHUB_REF_NAME }}"
+          "SHA=${{ env.GITHUB_SHA }}"
         push: true # ${{ github.event_name != 'pull_request' }}
         tags: "arch" # ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
