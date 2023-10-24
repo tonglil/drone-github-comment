@@ -69,7 +69,7 @@ jobs:
       with:
         context: .
         file: Dockerfile
-        platforms: linux/amd64,linux/arm64,linux/arm
+        platforms: linux/amd64 #,linux/arm64,linux/arm
         build-args: |
           "VERSION=${{ env.GITHUB_REF_NAME }}"
           "SHA=${{ env.GITHUB_SHA }}"
