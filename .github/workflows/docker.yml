@@ -61,8 +61,8 @@ jobs:
         file: Dockerfile
         platforms: linux/amd64 #,linux/arm64,linux/arm
         build-args: |
-          "VERSION=${{ env.GITHUB_REF_NAME }}"
-          "SHA=${{ env.GITHUB_SHA }}"
+          VERSION=${{ github.ref_name }}
+          SHA=${{ github.sha }}
         push: true # ${{ github.event_name != 'pull_request' }}
         tags: "tonglil/drone-github-comment:arch" # ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
