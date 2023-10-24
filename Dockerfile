@@ -3,10 +3,12 @@
 #     docker build -t tonglil/drone-github-comment .
 
 #
-# Run testing and build binary
+# Build binary
 #
 
 FROM golang:alpine AS builder
+
+ENV CGO_ENABLED=0
 
 ARG VERSION
 ARG SHA
@@ -18,11 +20,8 @@ WORKDIR /go/src/github.com/tonglil/drone-github-comment
 # copy sources
 COPY . .
 
-# run tests
-RUN go test -v ./...
-
 # build binary
-RUN go build -v -ldflags "-X main.revision=${VERSION:-none}-${SHA:-none}" -o "/drone-github-comment"
+RUN go build -ldflags "-X main.revision=${VERSION:-none}-${SHA:-none}" -o "/drone-github-comment"
 
 #
 # Build the image
@@ -36,4 +35,5 @@ RUN apk update && \
   rm -rf /var/cache/apk/*
 
 COPY --from=builder /drone-github-comment /bin/drone-github-comment
+
 ENTRYPOINT ["/bin/drone-github-comment"]
