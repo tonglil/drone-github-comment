@@ -49,7 +49,8 @@ For PRs, if this is not provided, it's generated automatically.
 
 #### `section`
 Override generated comment section to use when updating existing comments.
-For PRs, if this is not provided, it's generated automatically.
+For PRs, if this is not provided, it's generated automatically. Specify a
+section to group messages per comment key.
 
 #### `message`
 The message to post.
