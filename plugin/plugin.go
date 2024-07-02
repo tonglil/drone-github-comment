@@ -260,5 +260,5 @@ func updateSection(body, section, message string) (string, error) {
 		return "", err
 	}
 
-	return re.ReplaceAllString(body, msg), nil
+	return re.ReplaceAllLiteralString(body, msg), nil
 }
