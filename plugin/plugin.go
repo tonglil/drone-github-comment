@@ -106,7 +106,7 @@ func (p Plugin) Exec() error {
 				ic.Body = &body
 			}
 
-			_, _, err := p.gitClient.Issues.EditComment(p.gitContext, p.RepoOwner, p.RepoName, int(*comment.ID), ic)
+			_, _, err := p.gitClient.Issues.EditComment(p.gitContext, p.RepoOwner, p.RepoName, *comment.ID, ic)
 			return err
 		}
 	}
