@@ -7,7 +7,7 @@ require (
 	github.com/franela/goblin v0.0.0-20180624194345-6af5ecb776ce
 	github.com/google/go-github v15.0.0+incompatible
 	github.com/urfave/cli v1.22.15
-	golang.org/x/oauth2 v0.20.0
+	golang.org/x/oauth2 v0.21.0
 	gopkg.in/h2non/gock.v1 v1.1.2
 )
 
