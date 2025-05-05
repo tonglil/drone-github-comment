@@ -326,4 +326,65 @@ func TestPlugin(t *testing.T) {
 			}
 		})
 	})
+
+	g.Describe("deletes comment when empty", func() {
+		pl := Plugin{
+			BaseURL:   "http://server.com",
+			Message:   "",
+			IssueNum:  12,
+			Key:       "123",
+			RepoName:  "test-repo",
+			RepoOwner: "test-org",
+			Update:    true,
+			Token:     "fake",
+		}
+		p, err := NewFromPlugin(pl)
+		if err != nil {
+			g.Fail("Failed to create plugin for testing")
+		}
+
+		g.It("deletes comment when empty and has only one section", func() {
+			defer gock.Off()
+
+			gock.New("http://server.com").
+				Get("repos/test-org/test-repo/issues/12/comments").
+				Reply(200).
+				File("../testdata/response/existing-comment.json")
+
+			gock.New("http://server.com").
+				Delete("repos/test-org/test-repo/issues/comments/7").
+				Reply(204)
+
+			err := p.Exec()
+
+			g.Assert(err == nil).IsTrue(fmt.Sprintf("Received err: %s", err))
+			g.Assert(gock.HasUnmatchedRequest()).IsFalse(fmt.Sprintf("Received unmatched requests: %v\n", gock.GetUnmatchedRequests()))
+
+			if !gock.IsDone() {
+				for _, m := range gock.Pending() {
+					g.Fail(fmt.Sprintf("Did not make expected request: %s(%s)", m.Request().Method, m.Request().URLStruct))
+				}
+			}
+		})
+
+		g.It("does not delete comment when empty and has multiple sections", func() {
+			defer gock.Off()
+
+			gock.New("http://server.com").
+				Get("repos/test-org/test-repo/issues/12/comments").
+				Reply(200).
+				File("../testdata/response/existing-comment-multiple-sections.json")
+
+			err := p.Exec()
+
+			g.Assert(err == nil).IsTrue(fmt.Sprintf("Received err: %s", err))
+			g.Assert(gock.HasUnmatchedRequest()).IsFalse(fmt.Sprintf("Received unmatched requests: %v\n", gock.GetUnmatchedRequests()))
+
+			if !gock.IsDone() {
+				for _, m := range gock.Pending() {
+					g.Fail(fmt.Sprintf("Did not make expected request: %s(%s)", m.Request().Method, m.Request().URLStruct))
+				}
+			}
+		})
+	})
 }

@@ -59,7 +59,9 @@ The message to post.
 Path to file to read for message to post.
 
 #### `update`
-Update existing comment based on `key` and `section`. Defaults to `false`.
+Update existing comment based on `key` and `section`.
+If the comment content is empty and `update` is true, the comment will be deleted if it only contains one section.
+Defaults to `false`.
 
 #### `base_url`
 GitHub Base API Url. Example: `https://some.git.com/api/v3`. Defaults to `https://api.github.com`.
