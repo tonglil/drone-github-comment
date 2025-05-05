@@ -72,6 +72,23 @@ func (p Plugin) Exec() error {
 		return fmt.Errorf("Exec(): git client not initialized")
 	}
 
+	// If message is empty and we're updating, check if we should delete the comment
+	if p.Message == "" && p.Update {
+		comment, err := p.Comment()
+		if err != nil {
+			return err
+		}
+
+		if comment != nil {
+			// If the comment exists and only has one section, delete it
+			if hasOnlyOneSection(comment.GetBody()) {
+				_, err := p.gitClient.Issues.DeleteComment(p.gitContext, p.RepoOwner, p.RepoName, *comment.ID)
+				return err
+			}
+		}
+		return nil
+	}
+
 	ic := &github.IssueComment{
 		Body: &p.Message,
 	}
@@ -261,4 +278,10 @@ func updateSection(body, section, message string) (string, error) {
 	}
 
 	return re.ReplaceAllLiteralString(body, msg), nil
+}
+
+func hasOnlyOneSection(body string) bool {
+	startSections := strings.Count(body, "<!-- start: ")
+	endSections := strings.Count(body, "<!-- end: ")
+	return startSections == 1 && endSections == 1
 }
